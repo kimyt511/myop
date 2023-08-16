@@ -78,11 +78,6 @@ router.get('/:id', async (req, res) => {
     const match_data = await match_data_by_matchid(match_id);
     matchData.push(match_data);
   }
-  const sleep = (ms) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  };
-
-  await console.log(matchData);
   await res.send({ matchData: matchData });
 });
 
