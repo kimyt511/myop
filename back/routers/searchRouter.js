@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/:id', async (req, res) => {
   console.log(req.params.id);
-  const api_key = 'RGAPI-8b5682e3-0506-4b41-bd3f-4b353bea49e6';
+  const api_key = 'RGAPI-e69a9de4-6417-465d-9ca0-bcc327193850';
   const summoner_v4_by_summoner_name = async (summonerName) => {
     encodingSummonerName = encodeURI(summonerName);
     const response = await axios.get(
@@ -29,8 +29,7 @@ router.get('/:id', async (req, res) => {
   const puuid = await summoner_v4_by_summoner_name(req.params.id);
   const match_id_arr = await match_v5_by_puuid(puuid);
   const matchData = [];
-
-  match_id_arr.forEach(async (match_id) => {
+  const match_data_by_matchid = async (match_id) => {
     const data = await match_v5_by_matchid(match_id);
     const match = {};
     match['play_time'] = data['gameDuration'];
@@ -72,13 +71,16 @@ router.get('/:id', async (req, res) => {
       match['players'].push(player);
     });
 
-    matchData.push(match);
-    console.log(1);
-  });
+    return match;
+  };
+  for await (const match_id of match_id_arr) {
+    const match_data = await match_data_by_matchid(match_id);
+    matchData.push(match_data);
+  }
   const sleep = (ms) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
   };
-  await sleep(1000);
+
   await console.log(matchData);
   await res.send({ matchData: matchData });
 });
