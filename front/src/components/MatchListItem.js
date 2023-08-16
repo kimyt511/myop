@@ -1,9 +1,9 @@
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import './MatchListItem.scss';
 import { ChampIdDict, QueueIdDict, SpellIdDict } from '../RiotData';
-import { TimeToString } from '../Util';
+import { TimeToString, StartDayFromToDay } from '../Util';
 const MatchListItem = ({ username, match }) => {
-  const { id, queue_id, play_time, players } = match;
+  const { id, queue_id, play_time, players, gameCreation } = match;
   const user_info = players.filter(
     (e) => e.summonerName.split(' ').join('') === username.split(' ').join(''),
   )[0];
@@ -43,7 +43,7 @@ const MatchListItem = ({ username, match }) => {
           >
             {QueueIdDict[queue_id]}
           </div>
-          <div className="time-stamp">10일전</div>
+          <div className="time-stamp">{StartDayFromToDay(gameCreation)}</div>
           <div
             className="bar"
             style={{ background: user_is_win ? '#d5e3ff' : '#FFD8D9' }}

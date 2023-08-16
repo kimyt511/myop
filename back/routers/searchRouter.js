@@ -33,6 +33,7 @@ router.get('/:id', async (req, res) => {
     const data = await match_v5_by_matchid(match_id);
     const match = {};
     match['play_time'] = data['gameDuration'];
+    match['gameCreation'] = data['gameCreation'];
     match['queue_id'] = data['queueId'];
     match['mapId'] = data['mapId'];
     match['teams'] = data['teams'];
