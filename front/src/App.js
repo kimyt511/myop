@@ -6,21 +6,29 @@ import axios from 'axios';
 const App = () => {
   const [matches, setMatches] = useState([]);
   const [username, setUsername] = useState([]);
-  const onSearch = useCallback(
-    async (username) => {
+  const [status, setStatus] = useState([]);
+  const onSearch = useCallback(async (username) => {
+    try {
       const response = await axios.get(
         'http://localhost:8080/summoners/' + username,
       );
       setMatches(response.data.matchData);
       setUsername(username);
-    },
-    [matches],
-  );
+      setStatus(response.status);
+    } catch (err) {
+      setStatus(err.response.status);
+    }
+  }, []);
 
   return (
     <MatchTemplate>
       <NickNameSearch onSearch={onSearch} />
-      <MatchList key="1" username={username} matches={matches} />
+      <MatchList
+        key="1"
+        username={username}
+        matches={matches}
+        status={status}
+      />
     </MatchTemplate>
   );
 };

@@ -9,7 +9,7 @@ app.use(cors());
 app.use('/summoners', searchRouter);
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).send(err.message);
+  res.status(err.response.status).send(err.message);
 });
 
 app.listen(app.get('port'), () => {

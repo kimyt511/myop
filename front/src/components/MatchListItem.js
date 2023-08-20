@@ -7,7 +7,6 @@ const MatchListItem = ({ username, match }) => {
   const user_info = players.filter(
     (e) => e.summonerName.split(' ').join('') === username.split(' ').join(''),
   )[0];
-  console.log(queue_id);
   const user_is_win =
     user_info.teamId === 100 ? match.teams[0].win : match.teams[1].win;
   const user_item_arr = [
